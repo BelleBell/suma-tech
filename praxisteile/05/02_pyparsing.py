@@ -1,4 +1,4 @@
-from pyparsing import infixNotation, opAssoc, Word, Keyword, alphas, ParseException
+from pyparsing import infix_notation, OpAssoc, Word, Keyword, alphas, ParseException
 
 def parse_boolean_query(query):
 
@@ -12,23 +12,23 @@ def parse_boolean_query(query):
         def __repr__(self):
             return f"{self.tokens}"
 
-    operand.setParseAction(BoolOperand)
+    operand.set_parse_action(BoolOperand)
 
     # Definition der Operatoren in richtiger Präzedenz (von stark nach schwach)
-    bool_expr = infixNotation(operand,
+    bool_expr = infix_notation(operand,
         [
-            (Keyword("NOT"), 1, opAssoc.RIGHT),
-            (Keyword("AND"), 2, opAssoc.LEFT),
-            (Keyword("OR"),  2, opAssoc.LEFT),
+            (Keyword("NOT"), 1, OpAssoc.RIGHT),
+            (Keyword("AND"), 2, OpAssoc.LEFT),
+            (Keyword("OR"),  2, OpAssoc.LEFT),
         ]
     )
 
     try:
-        parsed = bool_expr.parseString(query, parse_all=True)
+        parsed = bool_expr.parse_string(query, parse_all=True)
         print(parsed)
     except ParseException as pe:
         print(f"Syntaxfehler in Suchanfrage:\n{pe}")
 
 if __name__ == "__main__":
     query = input("Boolesche Suchanfrage: ")
-    result = parse_boolean_query(query)
+    parse_boolean_query(query)
